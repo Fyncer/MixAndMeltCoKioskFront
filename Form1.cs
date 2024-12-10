@@ -1,20 +1,31 @@
+using System.Collections;
 using System.Drawing.Text;
+using System.Net.Http.Headers;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MixAndMeltCo {
     public partial class Form1 : Form {
+
         private Panel catalogueViewer;
+
+        public static Panel orderListDisplay = new Panel();
+
+        public static Dictionary<String, (decimal Price, int AmountToOrder)> orderList = new Dictionary<String, (decimal Price, int AmountToOrder)>();
+
+        public static decimal totalPrice = 0.00m;
+
+        public static Label OrderTotalPriceLabel = new Label();
+
+        PrivateFontCollection font = new PrivateFontCollection();
+        string fontPath1 = Path.Combine(Application.StartupPath, "CustomFonts/RethinkSans-ExtraBold.ttf");
+        string fontPath2 = Path.Combine(Application.StartupPath, "CustomFonts/Fustat-Light.ttf");
+        string fontPath3 = Path.Combine(Application.StartupPath, "CustomFonts/Fustat-Regular.ttf");
+
         public Form1() {
             InitializeComponent();
-            //Full Screen & No Border Display
-            this.WindowState = FormWindowState.Maximized; // Maximizes the form to full screen
-            this.FormBorderStyle = FormBorderStyle.None; // Removes the border and title bar
+            this.WindowState = FormWindowState.Maximized;
+            this.FormBorderStyle = FormBorderStyle.None;
             this.Size = Screen.PrimaryScreen.Bounds.Size;
-
-            //Embedding Custom Fonts
-            PrivateFontCollection font = new PrivateFontCollection();
-            string fontPath1 = Path.Combine(Application.StartupPath, "CustomFonts/RethinkSans-ExtraBold.ttf");
-            string fontPath2 = Path.Combine(Application.StartupPath, "CustomFonts/Fustat-Light.ttf");
-            string fontPath3 = Path.Combine(Application.StartupPath, "CustomFonts/Fustat-Regular.ttf");
 
             try {
                 font.AddFontFile(fontPath1);
@@ -24,7 +35,6 @@ namespace MixAndMeltCo {
             catch (Exception ex) {
                 MessageBox.Show($"Failed to load custom fonts: {ex.Message}");
             }
-
 
             SplitContainer splitKiosk = new SplitContainer() {
                 Size = new Size(this.Width, this.Height),
@@ -77,8 +87,6 @@ namespace MixAndMeltCo {
             AddCustomBorderToPanel(catalogueViewer, 0, 0, 0, 2, Color.Black);
             this.Load += new EventHandler(iceCreamCatalogue_Click);
             splitKiosk.Panel1.Controls.Add(catalogueViewer);
-
-
             iceCream.Click += iceCreamCatalogue_Click;
             snacks.Click += snacksCatalogue_Click;
             beverage.Click += beverageCatalogue_Click;
@@ -95,7 +103,7 @@ namespace MixAndMeltCo {
             splitKiosk.Panel2.Controls.Add(orderList_header);
 
             Panel Orderlist_bottom = new Panel() {
-                Dock = DockStyle.Bottom
+               Dock = DockStyle.Bottom
             };
             AddCustomBorderToPanel(Orderlist_bottom, 2, 0, 2, 2, Color.Black);
             splitKiosk.Panel2.Controls.Add(Orderlist_bottom);
@@ -112,40 +120,37 @@ namespace MixAndMeltCo {
             ToOrderButton.FlatAppearance.BorderColor = Color.Black; // Border color
             ToOrderButton.FlatAppearance.BorderSize = 2;
 
-            decimal totalPrice = 0.00m;
-
-            Label OrderTotalPriceLabel = new Label() {
+            OrderTotalPriceLabel = new Label() {
                 Size = new Size(Orderlist_bottom.Width / 2, Orderlist_bottom.Height),
                 Location = new Point(0, 0),
                 Text = $"Total Price:\n{totalPrice}",
-                Font = new Font(font.Families[0], 12, FontStyle.Regular),
-                TextAlign = ContentAlignment.MiddleCenter
+                Font = new Font(font.Families[2], 15, FontStyle.Regular),
+                TextAlign = ContentAlignment.MiddleCenter,
             };
             AddCustomBorderToLabel(OrderTotalPriceLabel, 2, 0, 2, 2, Color.Black);
+
+            orderListDisplay.Size = new Size(splitKiosk.Panel2.Width, splitKiosk.Panel2.Height - (orderList_header.Height + Orderlist_bottom.Height));
+            orderListDisplay.Location = new Point(0, orderList_header.Height);
+            orderListDisplay.Padding = new Padding(10,10,10,10);
+            orderListDisplay.AutoScroll = true;
+            AddCustomBorderToPanel(orderListDisplay, 0,0,2,0, Color.Black);
+
+            splitKiosk.Panel2.Controls.Add(orderListDisplay);
 
             Orderlist_bottom.Controls.Add(ToOrderButton);
             Orderlist_bottom.Controls.Add(OrderTotalPriceLabel);
 
-            Panel orderListContainer = new Panel() {
-                AutoScroll = true,
-                Size = new Size(splitKiosk.Panel2.Width, splitKiosk.Panel2.Height - (orderList_header.Height + Orderlist_bottom.Height)),
-                Location = new Point(0, orderList_header.Height),
-                BackColor = Color.Transparent
-            };
-            AddCustomBorderToPanel(orderListContainer, 0, 0, 2, 0, Color.Black);
-            splitKiosk.Panel2.Controls.Add(orderListContainer);
-
+            splitKiosk.Panel2.Controls.Add(Orderlist_bottom);
         }
-
+        
         private void DisplayFormInPanel(Form formToDisplay, Panel targetPanel) {
-            formToDisplay.TopLevel = false;                // Allows the form to be embedded
-            formToDisplay.Dock = DockStyle.Fill;        // Makes the form fill the 
-            targetPanel.Controls.Clear();                 // Clears existing controls in the panel
-            targetPanel.Controls.Add(formToDisplay);      // Adds the form to the panel
+            formToDisplay.TopLevel = false;
+            formToDisplay.Dock = DockStyle.Fill;
+            targetPanel.Controls.Clear();
+            targetPanel.Controls.Add(formToDisplay);
             AddCustomBorderToPanel(targetPanel, 0, 0, 0, 2, Color.Black);
             formToDisplay.Show();
         }
-
         private void iceCreamCatalogue_Click(object sender, EventArgs e) {
             IceCream cs = new IceCream(catalogueViewer.Width, catalogueViewer.Height);
             DisplayFormInPanel(cs, catalogueViewer);
@@ -161,12 +166,10 @@ namespace MixAndMeltCo {
             DisplayFormInPanel(bv, catalogueViewer);
             AddCustomBorderToPanel(catalogueViewer, 0, 0, 0, 2, Color.Black);
         }
-
-        private void AddCustomBorderToPanel(Panel panel, int top, int bottom, int left, int right, Color borderColor) {
+        public static void AddCustomBorderToPanel(Panel panel, int top, int bottom, int left, int right, Color borderColor) {
             panel.Paint += (s, e) => {
                 Graphics g = e.Graphics;
 
-                // Use a solid brush to fill rectangles for each side of the border
                 using (Brush brush = new SolidBrush(borderColor)) {
                     // Top border
                     if (top > 0)
@@ -186,15 +189,12 @@ namespace MixAndMeltCo {
                 }
             };
 
-            // Trigger the Paint event to apply the border immediately
             panel.Invalidate();
         }
-
         private void AddCustomBorderToLabel(Label label, int top, int bottom, int left, int right, Color borderColor) {
             label.Paint += (s, e) => {
                 Graphics g = e.Graphics;
 
-                // Use a solid brush to fill rectangles for each side of the border
                 using (Brush brush = new SolidBrush(borderColor)) {
                     // Top border
                     if (top > 0)
@@ -213,9 +213,9 @@ namespace MixAndMeltCo {
                         g.FillRectangle(brush, label.Width - right, 0, right, label.Height);
                 }
             };
-
-            // Redraw the label to apply the custom border
             label.Invalidate();
         }
+    
+        
     }
 }

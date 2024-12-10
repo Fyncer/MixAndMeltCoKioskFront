@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ren\\source\\repos\\MixAndMeltCo\\MixAndMeltCo.csproj": {}
+    "C:\\Users\\Ren\\Documents\\GitHub\\MixAndMeltCoKioskFront\\MixAndMeltCo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ren\\source\\repos\\MixAndMeltCo\\MixAndMeltCo.csproj": {
+    "C:\\Users\\Ren\\Documents\\GitHub\\MixAndMeltCoKioskFront\\MixAndMeltCo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ren\\source\\repos\\MixAndMeltCo\\MixAndMeltCo.csproj",
+        "projectUniqueName": "C:\\Users\\Ren\\Documents\\GitHub\\MixAndMeltCoKioskFront\\MixAndMeltCo.csproj",
         "projectName": "MixAndMeltCo",
-        "projectPath": "C:\\Users\\Ren\\source\\repos\\MixAndMeltCo\\MixAndMeltCo.csproj",
+        "projectPath": "C:\\Users\\Ren\\Documents\\GitHub\\MixAndMeltCoKioskFront\\MixAndMeltCo.csproj",
         "packagesPath": "C:\\Users\\Ren\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ren\\source\\repos\\MixAndMeltCo\\obj\\",
+        "outputPath": "C:\\Users\\Ren\\Documents\\GitHub\\MixAndMeltCoKioskFront\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
