@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MixAndMeltCo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+42cfe8a37931bf2788e8f31229f3a1a5f2c0e393")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3c754ff592c6ec2af2042375008848e80213554")]
 [assembly: System.Reflection.AssemblyProductAttribute("MixAndMeltCo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MixAndMeltCo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

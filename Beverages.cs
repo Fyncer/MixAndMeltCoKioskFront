@@ -1,10 +1,15 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Metrics;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,6 +30,8 @@ namespace MixAndMeltCo
         List<string> descriptions = new List<string>();
 
         int amountToOrder = 1;
+        public decimal totalPrice = 0;
+        public int yOffset = 0;
 
         PrivateFontCollection font = new PrivateFontCollection();
         string fontPath1 = Path.Combine(Application.StartupPath, "CustomFonts/RethinkSans-ExtraBold.ttf");
@@ -33,6 +40,8 @@ namespace MixAndMeltCo
 
         // Database connection string
         string connectionString = "Server=localhost;Port=3306;Database=mixandmelt;Uid=root;Pwd=DBpass12345$;";
+
+        Panel selectedProductBoxScreen = new Panel();
 
         public Beverages(int width, int height)
         {
@@ -57,7 +66,7 @@ namespace MixAndMeltCo
             catalogueHeader = new Label()
             {
                 AutoSize = true,
-                Text = "Beverages",
+                Text = "Beverage",
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font(font.Families[2], 25, FontStyle.Regular),
                 Location = new Point(0, 20),
@@ -66,18 +75,18 @@ namespace MixAndMeltCo
             };
             this.Controls.Add(catalogueHeader);
 
-            // Fetch beverage data from the database
+            // Fetch ice cream data from the database
             FetchBeverageData();
 
             // Set up the grid with the fetched data
             SetUpBeverageGrid();
         }
 
+
         // Method to fetch ice cream data from the database
         List<string> imagePaths = new List<string>();
         List<int> menuItemIds = new List<int>(); // Add this list to store the MenuItemIds
 
-        // Method to fetch beverage data from the database
         private void FetchBeverageData()
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
@@ -105,7 +114,7 @@ namespace MixAndMeltCo
             }
         }
 
-        // Set up the beverage grid using data from the database
+        // Set up the ice cream grid using data from the database
         private void SetUpBeverageGrid()
         {
             int beverageIndex = 0;
@@ -126,13 +135,16 @@ namespace MixAndMeltCo
                 beverageGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3f));
             }
 
-            beverageGrid.Size = new Size(this.Width, this.Height);
+            yOffset = 0;
+            displayLists();
+
+            beverageGrid.Size = new Size(this.Width, this.Height + 350);
             beverageGrid.Location = new Point(0, catalogueHeader.Height);
             beverageGrid.HorizontalScroll.Maximum = 0;
             beverageGrid.HorizontalScroll.Visible = false;
             this.Controls.Add(beverageGrid);
 
-            // Use the beverage data loaded from the database
+            // Use the ice cream data loaded from the database
             for (int rowIndex = 0; rowIndex < beverageGrid.RowCount - 1; rowIndex++)
             {
                 for (int columnIndex = 0; columnIndex < beverageGrid.ColumnCount; columnIndex++)
@@ -154,6 +166,7 @@ namespace MixAndMeltCo
                         Height = 100, // Adjust height of the image
                     };
                     productBox.Controls.Add(productImage);
+
 
                     Label beverageLabel = new Label()
                     {
@@ -219,6 +232,7 @@ namespace MixAndMeltCo
                 activeProductBoxScreen = null; // Clear the reference
                 this.Controls.Add(catalogueHeader);
                 catalogueHeader.BringToFront();
+                AutoScroll = true;
                 this.Refresh();
             };
 
@@ -266,6 +280,7 @@ namespace MixAndMeltCo
                 Height = 200, // Adjust height for the image
             };
             selectedProductBoxScreen.Controls.Add(selectedProductImage); // Add to the selected product box
+
 
             Panel amountCounterContainer = new Panel()
             {
@@ -369,10 +384,34 @@ namespace MixAndMeltCo
                 DatabaseConnection dbConnection = new DatabaseConnection();
                 dbConnection.AddOrderToDatabase(customerName, orderItems);
 
-                // Optionally, update UI to confirm order has been added
-                MessageBox.Show("Order added successfully!", "Order Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (Form1.orderList.ContainsKey(beverages[beverageIndex]))
+                {
+                    Form1.orderList[beverages[beverageIndex]] = (prices[beverageIndex], amountToOrder);
+                }
+                else
+                {
+                    Form1.orderList.Add(beverages[beverageIndex], (prices[beverageIndex], amountToOrder));
+                }
+
+                Form1.orderListDisplay.Controls.Clear();
+                orderUpdateIndicate();
+                displayLists();
 
             };
+
+
+            if (Form1.orderList.ContainsKey(beverages[beverageIndex]))
+            {
+                productPriceDisplay.Text = $"{(Form1.orderList[beverages[beverageIndex]].Price) * (Form1.orderList[beverages[beverageIndex]].AmountToOrder)}";
+                amountToOrder = Form1.orderList[beverages[beverageIndex]].AmountToOrder;
+                localCounterLabel.Text = Convert.ToString(amountToOrder);
+            }
+            else
+            {
+                productPriceDisplay.Text = $"{prices[beverageIndex]}";
+            }
+
+
 
             productDetailContainer.Controls.Add(addToOrder);
 
@@ -384,6 +423,144 @@ namespace MixAndMeltCo
             productDetailContainer.Controls.Add(productDescription);
 
             selectedProductBoxScreen.Controls.Add(productDetailContainer);
+        }
+        private void displayLists()
+        {
+            yOffset = 0;
+            Form1.totalPrice = 0; // Reset total price to 0 before recalculating
+
+            foreach (var entry in Form1.orderList)
+            {
+                decimal itemTotalPrice = entry.Value.Price * entry.Value.AmountToOrder;
+                Form1.totalPrice += itemTotalPrice; // Accumulate total price
+
+                Panel selectedProductFrame = new Panel()
+                {
+                    Size = new Size(Form1.orderListDisplay.Width - 80, 110),
+                    Padding = new Padding(5),
+                };
+                Form1.AddCustomBorderToPanel(selectedProductFrame, 2, 2, 2, 2, Color.Black);
+                selectedProductFrame.Location = new Point((Form1.orderListDisplay.Width - selectedProductFrame.Width) / 2, yOffset);
+
+                Label selectedProductName = new Label()
+                {
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Height = 40,
+                    Text = $"{entry.Key}",
+                    Font = new Font(font.Families[2], 20, FontStyle.Regular),
+                };
+
+                Label selectedProductPrice = new Label()
+                {
+                    Height = 40,
+                    Width = 200,
+                    TextAlign = ContentAlignment.MiddleRight,
+                    Text = $"{itemTotalPrice:F2}", // Display as currency
+                    Font = new Font(font.Families[2], 20, FontStyle.Regular),
+                };
+
+                Label selectedProductQuantity = new Label()
+                {
+                    Height = 40,
+                    Width = 150,
+                    TextAlign = ContentAlignment.MiddleLeft,
+                    Text = $"Quantity: {entry.Value.AmountToOrder}",
+                    Font = new Font(font.Families[0], 10, FontStyle.Regular),
+                };
+
+                Button deleteSelectedProduct = new Button()
+                {
+                    Size = new Size(90, selectedProductName.Height),
+                    Font = new Font(font.Families[0], 10, FontStyle.Regular),
+                    Text = "Remove",
+                    BackColor = Color.Black,
+                    ForeColor = Color.White,
+                };
+                deleteSelectedProduct.FlatStyle = FlatStyle.Flat;
+                deleteSelectedProduct.FlatAppearance.BorderSize = 0;
+
+                selectedProductName.Width = (selectedProductFrame.Width - deleteSelectedProduct.Width) - 20;
+                selectedProductName.Location = new Point(10, 10);
+                selectedProductQuantity.Location = new Point(10, (selectedProductName.Location.Y + selectedProductName.Height) + 10);
+                deleteSelectedProduct.Location = new Point((selectedProductFrame.Width - deleteSelectedProduct.Width) - 10, selectedProductName.Location.Y);
+                selectedProductPrice.Location = new Point((deleteSelectedProduct.Location.X + deleteSelectedProduct.Width) - selectedProductPrice.Width, (selectedProductName.Location.Y + selectedProductName.Height) + 10);
+
+                selectedProductFrame.Controls.Add(selectedProductName);
+                selectedProductFrame.Controls.Add(selectedProductPrice);
+                selectedProductFrame.Controls.Add(selectedProductQuantity);
+                selectedProductFrame.Controls.Add(deleteSelectedProduct);
+
+                Form1.orderListDisplay.Controls.Add(selectedProductFrame);
+
+                deleteSelectedProduct.Click += (sender, eventArgs) => {
+                    Form1.orderList.Remove(entry.Key);
+                    Form1.orderListDisplay.Controls.Clear(); // Clear display
+                    displayLists(); // Rebuild display after deletion
+                };
+
+                yOffset += selectedProductFrame.Height + 5;
+            }
+
+
+            Form1.OrderTotalPriceLabel.Text = $"Total Price:\n{Form1.totalPrice:F2}";
+        }
+
+        public void orderUpdateIndicate()
+        {
+
+            Panel updateIndicateScreen = new Panel()
+            {
+                Size = new Size(selectedProductBoxScreen.Width, selectedProductBoxScreen.Height),
+            };
+
+            // Create the header label
+            Label updateIndicateHeader = new Label
+            {
+                Size = new Size(updateIndicateScreen.Width, 50),
+                Text = "Order Updated",
+                Font = new Font(font.Families[2], 25, FontStyle.Regular),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            Label updateIndicateSubtext = new Label
+            {
+                Size = new Size(updateIndicateScreen.Width, 30),
+                Text = "Your specified changes have been added to the Order List",
+                Font = new Font(font.Families[0], 12, FontStyle.Regular),
+                TextAlign = ContentAlignment.TopCenter
+            };
+            updateIndicateHeader.Location = new Point((updateIndicateScreen.Width - updateIndicateHeader.Width) / 2, (updateIndicateScreen.Height / 2) - updateIndicateHeader.Height);
+            updateIndicateSubtext.Location = new Point((updateIndicateScreen.Width - updateIndicateSubtext.Width) / 2, (updateIndicateHeader.Location.Y + updateIndicateHeader.Height + 20));
+
+            updateIndicateScreen.Controls.Add(updateIndicateHeader);
+            updateIndicateScreen.Controls.Add(updateIndicateSubtext);
+
+            this.Controls.Add(updateIndicateScreen);
+            updateIndicateScreen.BringToFront();
+
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
+            {
+                Interval = 3000
+            };
+
+            timer.Tick += (sender, e) =>
+            {
+                timer.Stop();
+                timer.Dispose();
+                amountToOrder = 1;
+                this.Controls.Remove(updateIndicateScreen);
+                updateIndicateScreen.Dispose();
+                this.Controls.Remove(selectedProductBoxScreen);
+                selectedProductBoxScreen.Dispose();
+                activeProductBoxScreen = null;
+                this.Controls.Add(catalogueHeader);
+                catalogueHeader.BringToFront();
+                AutoScroll = true;
+                this.Refresh();
+            };
+
+            timer.Start();
+
         }
     }
 }
