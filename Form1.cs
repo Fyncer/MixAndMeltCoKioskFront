@@ -3,8 +3,10 @@ using System.Drawing.Text;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
-namespace MixAndMeltCo {
-    public partial class Form1 : Form {
+namespace MixAndMeltCo
+{
+    public partial class Form1 : Form
+    {
 
         private Panel catalogueViewer;
 
@@ -21,22 +23,26 @@ namespace MixAndMeltCo {
         string fontPath2 = Path.Combine(Application.StartupPath, "CustomFonts/Fustat-Light.ttf");
         string fontPath3 = Path.Combine(Application.StartupPath, "CustomFonts/Fustat-Regular.ttf");
 
-        public Form1() {
+        public Form1()
+        {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
             this.FormBorderStyle = FormBorderStyle.None;
             this.Size = Screen.PrimaryScreen.Bounds.Size;
 
-            try {
+            try
+            {
                 font.AddFontFile(fontPath1);
                 font.AddFontFile(fontPath2);
                 font.AddFontFile(fontPath3);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Failed to load custom fonts: {ex.Message}");
             }
 
-            SplitContainer splitKiosk = new SplitContainer() {
+            SplitContainer splitKiosk = new SplitContainer()
+            {
                 Size = new Size(this.Width, this.Height),
                 IsSplitterFixed = true
             };
@@ -45,25 +51,29 @@ namespace MixAndMeltCo {
             AddCustomBorderToPanel(splitKiosk.Panel1, 0, 0, 0, 2, System.Drawing.Color.Black);
             this.Controls.Add(splitKiosk);
 
-            Panel menuHeader = new Panel() {
+            Panel menuHeader = new Panel()
+            {
                 Size = new Size(splitKiosk.Panel1.Width, splitKiosk.Panel1.Height / 9),
             };
             AddCustomBorderToPanel(menuHeader, 0, 2, 0, 0, System.Drawing.Color.Black);
             splitKiosk.Panel1.Controls.Add(menuHeader);
 
-            Button iceCream = new Button() {
+            Button iceCream = new Button()
+            {
                 AutoSize = true,
                 Text = "Ice Cream",
                 FlatStyle = FlatStyle.Flat,
             };
             iceCream.FlatAppearance.BorderSize = 0;
-            Button snacks = new Button() {
+            Button snacks = new Button()
+            {
                 AutoSize = true,
                 Text = "Snacks",
                 FlatStyle = FlatStyle.Flat,
             };
             snacks.FlatAppearance.BorderSize = 0;
-            Button beverage = new Button() {
+            Button beverage = new Button()
+            {
                 AutoSize = true,
                 Text = "Beverages",
                 FlatStyle = FlatStyle.Flat,
@@ -78,7 +88,8 @@ namespace MixAndMeltCo {
             snacks.Location = new Point((iceCream.Location.X + iceCream.Width) + 45, iceCream.Location.Y);
             beverage.Location = new Point(snacks.Location.X + (snacks.Width + 20), iceCream.Location.Y);
 
-            Button CancelOrder = new Button() {
+            Button CancelOrder = new Button()
+            {
                 AutoSize = true,
                 Text = "Cancel Order",
                 FlatStyle = FlatStyle.Flat,
@@ -95,7 +106,8 @@ namespace MixAndMeltCo {
             menuHeader.Controls.Add(beverage);
             menuHeader.Controls.Add(CancelOrder);
 
-            catalogueViewer = new Panel() {
+            catalogueViewer = new Panel()
+            {
                 Size = new Size(splitKiosk.Panel1.Width, splitKiosk.Panel1.Height - menuHeader.Height),
                 Location = new Point(0, menuHeader.Height),
                 AutoSize = true,
@@ -108,7 +120,8 @@ namespace MixAndMeltCo {
             beverage.Click += beverageCatalogue_Click;
 
             AddCustomBorderToPanel(splitKiosk.Panel2, 0, 0, 2, 0, Color.Black);
-            Label orderList_header = new Label() {
+            Label orderList_header = new Label()
+            {
                 Location = new Point(0, 0),
                 Text = "Your Order",
                 Font = new Font(font.Families[2], 25, FontStyle.Regular),
@@ -118,13 +131,15 @@ namespace MixAndMeltCo {
             orderList_header.Padding = Padding = new Padding(20, ((splitKiosk.Panel2.Height / 9) - 50) / 2, 20, ((splitKiosk.Panel2.Height / 9) - 50) / 2);
             splitKiosk.Panel2.Controls.Add(orderList_header);
 
-            Panel Orderlist_bottom = new Panel() {
-               Dock = DockStyle.Bottom
+            Panel Orderlist_bottom = new Panel()
+            {
+                Dock = DockStyle.Bottom
             };
             AddCustomBorderToPanel(Orderlist_bottom, 2, 0, 2, 2, Color.Black);
             splitKiosk.Panel2.Controls.Add(Orderlist_bottom);
 
-            Button ToOrderButton = new Button() {
+            Button ToOrderButton = new Button()
+            {
                 Size = new Size(Orderlist_bottom.Width / 2, Orderlist_bottom.Height),
                 Location = new Point(Orderlist_bottom.Width / 2, 0),
                 FlatStyle = FlatStyle.Flat,
@@ -136,7 +151,8 @@ namespace MixAndMeltCo {
             ToOrderButton.FlatAppearance.BorderColor = Color.Black; // Border color
             ToOrderButton.FlatAppearance.BorderSize = 2;
 
-            OrderTotalPriceLabel = new Label() {
+            OrderTotalPriceLabel = new Label()
+            {
                 Size = new Size(Orderlist_bottom.Width / 2, Orderlist_bottom.Height),
                 Location = new Point(0, 0),
                 Text = $"Total Price:\n{totalPrice}",
@@ -147,9 +163,9 @@ namespace MixAndMeltCo {
 
             orderListDisplay.Size = new Size(splitKiosk.Panel2.Width, splitKiosk.Panel2.Height - (orderList_header.Height + Orderlist_bottom.Height));
             orderListDisplay.Location = new Point(0, orderList_header.Height);
-            orderListDisplay.Padding = new Padding(10,10,10,10);
+            orderListDisplay.Padding = new Padding(10, 10, 10, 10);
             orderListDisplay.AutoScroll = true;
-            AddCustomBorderToPanel(orderListDisplay, 0,0,2,0, Color.Black);
+            AddCustomBorderToPanel(orderListDisplay, 0, 0, 2, 0, Color.Black);
 
             splitKiosk.Panel2.Controls.Add(orderListDisplay);
 
@@ -158,8 +174,9 @@ namespace MixAndMeltCo {
 
             splitKiosk.Panel2.Controls.Add(Orderlist_bottom);
         }
-        
-        private void DisplayFormInPanel(Form formToDisplay, Panel targetPanel) {
+
+        private void DisplayFormInPanel(Form formToDisplay, Panel targetPanel)
+        {
             formToDisplay.TopLevel = false;
             formToDisplay.Dock = DockStyle.Fill;
             targetPanel.Controls.Clear();
@@ -167,26 +184,31 @@ namespace MixAndMeltCo {
             AddCustomBorderToPanel(targetPanel, 0, 0, 0, 2, Color.Black);
             formToDisplay.Show();
         }
-        private void iceCreamCatalogue_Click(object sender, EventArgs e) {
+        private void iceCreamCatalogue_Click(object sender, EventArgs e)
+        {
             IceCream cs = new IceCream(catalogueViewer.Width, catalogueViewer.Height);
             DisplayFormInPanel(cs, catalogueViewer);
             AddCustomBorderToPanel(catalogueViewer, 0, 0, 0, 2, Color.Black);
         }
-        private void snacksCatalogue_Click(object sender, EventArgs e) {
+        private void snacksCatalogue_Click(object sender, EventArgs e)
+        {
             Snack sk = new Snack(catalogueViewer.Width, catalogueViewer.Height);
             DisplayFormInPanel(sk, catalogueViewer);
             AddCustomBorderToPanel(catalogueViewer, 0, 0, 0, 2, Color.Black);
         }
-        private void beverageCatalogue_Click(object sender, EventArgs e) {
+        private void beverageCatalogue_Click(object sender, EventArgs e)
+        {
             Beverages bv = new Beverages(catalogueViewer.Width, catalogueViewer.Height);
             DisplayFormInPanel(bv, catalogueViewer);
             AddCustomBorderToPanel(catalogueViewer, 0, 0, 0, 2, Color.Black);
         }
-        public static void AddCustomBorderToPanel(Panel panel, int top, int bottom, int left, int right, Color borderColor) {
+        public static void AddCustomBorderToPanel(Panel panel, int top, int bottom, int left, int right, Color borderColor)
+        {
             panel.Paint += (s, e) => {
                 Graphics g = e.Graphics;
 
-                using (Brush brush = new SolidBrush(borderColor)) {
+                using (Brush brush = new SolidBrush(borderColor))
+                {
                     // Top border
                     if (top > 0)
                         g.FillRectangle(brush, 0, 0, panel.Width, top);
@@ -207,11 +229,13 @@ namespace MixAndMeltCo {
 
             panel.Invalidate();
         }
-        private void AddCustomBorderToLabel(Label label, int top, int bottom, int left, int right, Color borderColor) {
+        private void AddCustomBorderToLabel(Label label, int top, int bottom, int left, int right, Color borderColor)
+        {
             label.Paint += (s, e) => {
                 Graphics g = e.Graphics;
 
-                using (Brush brush = new SolidBrush(borderColor)) {
+                using (Brush brush = new SolidBrush(borderColor))
+                {
                     // Top border
                     if (top > 0)
                         g.FillRectangle(brush, 0, 0, label.Width, top);
@@ -231,30 +255,36 @@ namespace MixAndMeltCo {
             };
             label.Invalidate();
         }
-    
-        private void confirmCancelOrder() {
-            Panel confirmingCancelScreen = new Panel() {
+
+        private void confirmCancelOrder()
+        {
+            Panel confirmingCancelScreen = new Panel()
+            {
                 Size = new Size(this.Width, this.Height),
             };
-            Label confirmCancelHeader = new Label() {
+            Label confirmCancelHeader = new Label()
+            {
                 Size = new Size(this.Width, 50),
                 Text = "Cancel Order?",
                 Font = new Font(font.Families[2], 30, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter
             };
-            Label confirmCancelSubtext = new Label() {
+            Label confirmCancelSubtext = new Label()
+            {
                 Size = new Size(this.Width, 40),
                 Text = "Your order list will be permanently discarded if you confirm by pressing 'Yes'",
                 Font = new Font(font.Families[0], 16, FontStyle.Regular),
                 TextAlign = ContentAlignment.MiddleCenter
             };
-            Button yesCancelButton = new Button() {
+            Button yesCancelButton = new Button()
+            {
                 Size = new Size(200, 80),
                 Text = "Yes",
                 Font = new Font(font.Families[1], 16, FontStyle.Regular),
                 FlatStyle = FlatStyle.Flat
             };
-            Button noCancelButton = new Button() {
+            Button noCancelButton = new Button()
+            {
                 Size = new Size(200, 80),
                 Text = "No",
                 Font = new Font(font.Families[1], 16, FontStyle.Regular),
@@ -263,9 +293,9 @@ namespace MixAndMeltCo {
             noCancelButton.Click += (s, args) => {
                 this.Controls.Remove(confirmingCancelScreen);
             };
-            
 
-            confirmCancelSubtext.Location = new Point((confirmingCancelScreen.Width - confirmCancelSubtext.Width) / 2,(confirmingCancelScreen.Height / 2) - confirmCancelSubtext.Height);
+
+            confirmCancelSubtext.Location = new Point((confirmingCancelScreen.Width - confirmCancelSubtext.Width) / 2, (confirmingCancelScreen.Height / 2) - confirmCancelSubtext.Height);
             confirmCancelHeader.Location = new Point((confirmingCancelScreen.Width - confirmCancelHeader.Width) / 2, (confirmCancelSubtext.Location.Y - confirmCancelSubtext.Height) - 20);
             noCancelButton.Location = new Point((((confirmingCancelScreen.Width - noCancelButton.Width) / 2) - (noCancelButton.Width / 2)) - 20, (confirmingCancelScreen.Height / 2) + confirmCancelSubtext.Height);
             yesCancelButton.Location = new Point((((confirmingCancelScreen.Width - noCancelButton.Width) / 2) + (noCancelButton.Width / 2)) + 20, (confirmingCancelScreen.Height / 2) + confirmCancelSubtext.Height);

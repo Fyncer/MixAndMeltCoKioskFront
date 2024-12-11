@@ -43,3 +43,43 @@ C:\Users\Ren\Documents\GitHub\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\re
 c:\Users\Ren\Documents\GitHub\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.SnackOrderItem.resources
 c:\Users\Ren\Documents\GitHub\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.BeveragesOrderItem.resources
 c:\Users\Ren\Documents\GitHub\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.OrderItem.resources
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.Beverages.resources
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.Form1.resources
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.Opener.resources
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.Snack.resources
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.csproj.GenerateResource.cache
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.AssemblyInfoInputs.cache
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.AssemblyInfo.cs
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.csproj.CoreCompileInputs.cache
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.sourcelink.json
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\refint\MixAndMeltCo.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.pdb
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.csproj.AssemblyReference.cache
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\MixAndMeltCo.exe
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\Fonts\Fustat-Light.ttf
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\Fonts\Fustat-Regular.ttf
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\Fonts\RethinkSans-ExtraBold.ttf
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\MixAndMeltCo.dll.config
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\MixAndMeltCo.deps.json
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\MixAndMeltCo.runtimeconfig.json
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\MixAndMeltCo.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\MixAndMeltCo.pdb
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\Google.Protobuf.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\MySql.Data.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\System.IO.Pipelines.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\ZstdSharp.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\runtimes\win-x64\native\comerr64.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\runtimes\win-x64\native\gssapi64.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\runtimes\win-x64\native\krb5_64.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.IceCream.resources
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMe.EC5867D8.Up2Date
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\MixAndMeltCo.genruntimeconfig.cache
+C:\Users\Carding Garcia\Source\Repos\MixAndMeltCoKioskFront\obj\Debug\net8.0-windows\ref\MixAndMeltCo.dll
