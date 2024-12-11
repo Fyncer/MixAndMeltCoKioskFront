@@ -10,6 +10,9 @@
     <Compile Update="IceCream.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Opener.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Snack.cs">
       <SubType>Form</SubType>
     </Compile>
