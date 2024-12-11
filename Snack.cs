@@ -112,7 +112,7 @@ namespace MixAndMeltCo {
 
             displayLists();
 
-            snackGrid.Size = new Size(this.Width, this.Height);
+            snackGrid.Size = new Size(this.Width, this.Height  + 350);
             snackGrid.Location = new Point(0, catalogueHeader.Height);
             snackGrid.HorizontalScroll.Maximum = 0; 
             snackGrid.HorizontalScroll.Visible = false;

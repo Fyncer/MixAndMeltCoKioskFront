@@ -112,7 +112,7 @@ namespace MixAndMeltCo {
 
             displayLists();
 
-            iceCreamGrid.Size = new Size(this.Width, this.Height);
+            iceCreamGrid.Size = new Size(this.Width, this.Height + 350);
             iceCreamGrid.Location = new Point(0, catalogueHeader.Height);
             iceCreamGrid.HorizontalScroll.Maximum = 0; 
             iceCreamGrid.HorizontalScroll.Visible = false;

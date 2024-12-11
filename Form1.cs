@@ -54,30 +54,46 @@ namespace MixAndMeltCo {
             Button iceCream = new Button() {
                 AutoSize = true,
                 Text = "Ice Cream",
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
             };
             iceCream.FlatAppearance.BorderSize = 0;
             Button snacks = new Button() {
                 AutoSize = true,
                 Text = "Snacks",
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
             };
             snacks.FlatAppearance.BorderSize = 0;
             Button beverage = new Button() {
                 AutoSize = true,
                 Text = "Beverages",
-                FlatStyle = FlatStyle.Flat
+                FlatStyle = FlatStyle.Flat,
             };
             beverage.FlatAppearance.BorderSize = 0;
+
             snacks.Font = new Font(font.Families[0], 12, FontStyle.Regular);
             iceCream.Font = new Font(font.Families[0], 12, FontStyle.Regular);
             beverage.Font = new Font(font.Families[0], 12, FontStyle.Regular);
-            snacks.Location = new Point((menuHeader.Width - snacks.Width) / 2, (menuHeader.Height - snacks.Height) / 2);
-            iceCream.Location = new Point(snacks.Location.X - (snacks.Width + 45), snacks.Location.Y);
-            beverage.Location = new Point(snacks.Location.X + (iceCream.Width + 20), snacks.Location.Y);
+
+            iceCream.Location = new Point(90, (menuHeader.Height - iceCream.Height) / 2);
+            snacks.Location = new Point((iceCream.Location.X + iceCream.Width) + 45, iceCream.Location.Y);
+            beverage.Location = new Point(snacks.Location.X + (snacks.Width + 20), iceCream.Location.Y);
+
+            Button CancelOrder = new Button() {
+                AutoSize = true,
+                Text = "Cancel Order",
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font(font.Families[0], 12, FontStyle.Regular),
+            };
+            CancelOrder.Location = new Point(((menuHeader.Width - CancelOrder.Width) - CancelOrder.Width) - 105, iceCream.Location.Y);
+
+            CancelOrder.Click += (s, args) => {
+                confirmCancelOrder();
+            };
+
             menuHeader.Controls.Add(iceCream);
             menuHeader.Controls.Add(snacks);
             menuHeader.Controls.Add(beverage);
+            menuHeader.Controls.Add(CancelOrder);
 
             catalogueViewer = new Panel() {
                 Size = new Size(splitKiosk.Panel1.Width, splitKiosk.Panel1.Height - menuHeader.Height),
@@ -216,6 +232,51 @@ namespace MixAndMeltCo {
             label.Invalidate();
         }
     
-        
+        private void confirmCancelOrder() {
+            Panel confirmingCancelScreen = new Panel() {
+                Size = new Size(this.Width, this.Height),
+            };
+            Label confirmCancelHeader = new Label() {
+                Size = new Size(this.Width, 50),
+                Text = "Cancel Order?",
+                Font = new Font(font.Families[2], 30, FontStyle.Regular),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            Label confirmCancelSubtext = new Label() {
+                Size = new Size(this.Width, 40),
+                Text = "Your order list will be permanently discarded if you confirm by pressing 'Yes'",
+                Font = new Font(font.Families[0], 16, FontStyle.Regular),
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+            Button yesCancelButton = new Button() {
+                Size = new Size(200, 80),
+                Text = "Yes",
+                Font = new Font(font.Families[1], 16, FontStyle.Regular),
+                FlatStyle = FlatStyle.Flat
+            };
+            Button noCancelButton = new Button() {
+                Size = new Size(200, 80),
+                Text = "No",
+                Font = new Font(font.Families[1], 16, FontStyle.Regular),
+                FlatStyle = FlatStyle.Flat
+            };
+            noCancelButton.Click += (s, args) => {
+                this.Controls.Remove(confirmingCancelScreen);
+            };
+            
+
+            confirmCancelSubtext.Location = new Point((confirmingCancelScreen.Width - confirmCancelSubtext.Width) / 2,(confirmingCancelScreen.Height / 2) - confirmCancelSubtext.Height);
+            confirmCancelHeader.Location = new Point((confirmingCancelScreen.Width - confirmCancelHeader.Width) / 2, (confirmCancelSubtext.Location.Y - confirmCancelSubtext.Height) - 20);
+            noCancelButton.Location = new Point((((confirmingCancelScreen.Width - noCancelButton.Width) / 2) - (noCancelButton.Width / 2)) - 20, (confirmingCancelScreen.Height / 2) + confirmCancelSubtext.Height);
+            yesCancelButton.Location = new Point((((confirmingCancelScreen.Width - noCancelButton.Width) / 2) + (noCancelButton.Width / 2)) + 20, (confirmingCancelScreen.Height / 2) + confirmCancelSubtext.Height);
+
+            confirmingCancelScreen.Controls.Add(confirmCancelSubtext);
+            confirmingCancelScreen.Controls.Add(confirmCancelHeader);
+            confirmingCancelScreen.Controls.Add(noCancelButton);
+            confirmingCancelScreen.Controls.Add(yesCancelButton);
+
+            this.Controls.Add(confirmingCancelScreen);
+            confirmingCancelScreen.BringToFront();
+        }
     }
 }

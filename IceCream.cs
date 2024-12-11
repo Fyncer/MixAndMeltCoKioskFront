@@ -122,12 +122,13 @@ namespace MixAndMeltCo {
                 iceCreamGrid.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3f));
             }
 
+            //tae
             int flavorIndex = 0;
             yOffset = 0 ; 
 
             displayLists();
 
-            iceCreamGrid.Size = new Size(this.Width, this.Height);
+            iceCreamGrid.Size = new Size(this.Width, this.Height + 350);
             iceCreamGrid.Location = new Point(0, catalogueHeader.Height);
             iceCreamGrid.HorizontalScroll.Maximum = 0; 
             iceCreamGrid.HorizontalScroll.Visible = false;
